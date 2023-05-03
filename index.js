@@ -2,8 +2,8 @@ const express = require('express');
 const app = express();
 
 require('./startup/middleware')(app);   //* calling some Middleware
-require('./startup/db')();      //* connection to DB 
-
+require('./startup/db')();              //* connection to DB 
+require('./startup/routes')(app);       //* API routes
 
 const port = process.env.PORT || 3000;
 app.listen(port, () => {
