@@ -1,6 +1,7 @@
 const express = require('express');
 const app = express();
 
+require('./startup/middleware')(app);   //* calling some Middleware
 require('./startup/db')();      //* connection to DB 
 
 
