@@ -1,4 +1,5 @@
 const bcrypt = require('bcrypt');
+const jwt = require('jsonwebtoken');
 
 const { User, loginValidate } = require('../../models/user');
 
@@ -26,9 +27,18 @@ module.exports = async(req, res, next) => {
       error.statusCode = 401;
       throw error;
     }
+    
+    const token = jwt.sign({
+        email: user.email,
+        userId: user._id.toString()
+      },
+      process.env.JWT_KEY,
+      { expiresIn: '1h' }
+    );
   
     res.status(200).json({
       message: "user logedIn",
+      token: token,
       user: {
         id: user._id
       }
