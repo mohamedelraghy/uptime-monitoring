@@ -25,6 +25,12 @@ module.exports = async (req, res, next) => {
     user.password = await bcrypt.hash(user.password, salt);
   
     await user.save();  
+
+    res.status(200).json({ 
+      "message": "User Created",
+      "id": user._id
+    });
+    
   } catch (err) {
     if (!err.status) {
       err.status = 500;
