@@ -6,7 +6,7 @@ const { User, validate } = require('../../models/user');
 module.exports = async (req, res, next) => {
   const { error } = validate(req.body);
   if (error) {
-    return res.status(400).json({ "error": error.details[0].message });
+    return res.status(422).json({ "error": error.details[0].message });
   }
   try {
 
@@ -27,10 +27,12 @@ module.exports = async (req, res, next) => {
     await user.save();  
 
     res.status(200).json({ 
-      "message": "User Created",
-      "id": user._id
+      message: "User Created",
+      user: {
+        id: user._id
+      }
     });
-    
+
   } catch (err) {
     if (!err.status) {
       err.status = 500;
