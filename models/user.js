@@ -25,6 +25,11 @@ const userSchema = new mongoose.Schema({
   userIsVerified : {
     type : Boolean,
     default : false
+  },
+  PIN: String,
+  PINExpiration: {
+    type: Date,
+    default: Date.now()
   }
 });
 

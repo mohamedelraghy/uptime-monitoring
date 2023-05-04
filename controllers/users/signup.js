@@ -2,6 +2,7 @@ const _ = require('lodash');
 const bcrypt = require('bcrypt');
 
 const { User, validate } = require('../../models/user');
+const transporter = require('../../services/sendGrid')
 
 module.exports = async (req, res, next) => {
   const { error } = validate(req.body);
@@ -24,8 +25,24 @@ module.exports = async (req, res, next) => {
     const salt = await bcrypt.genSalt(10);
     user.password = await bcrypt.hash(user.password, salt);
   
-    await user.save();  
+    
+    //* send 5 digits PIN to user when registering 
+    const code = generateCode(5);
+    await transporter.sendMail({
+      to: user.email,
+      from: "elraghy8+noreplay@gmail.com",
+      subject: "Active You Uptime",
+      html: `
+      <p>You just register on Uptime Monitoring</p>
+      <p>Use this code: ${code} to active your Account</p>       
+      `,
+    });
+    
+    user.PIN = code;
+    user.PINExpiration = Date.now() + 3600000;
 
+    await user.save();  
+    
     res.status(200).json({ 
       message: "User Created",
       user: {
@@ -39,4 +56,8 @@ module.exports = async (req, res, next) => {
     }
     next(err);
   }
+}
+
+function generateCode(digit_num) {
+  return Math.floor(Math.random() * (9 * Math.pow(10, digit_num - 1))) + Math.pow(10, digit_num - 1);
 }
