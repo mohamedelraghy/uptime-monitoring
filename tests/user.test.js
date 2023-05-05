@@ -1,6 +1,5 @@
 const axios = require('axios');
-const app = require('../index');
-
+// const app = require('../index');
 const mongoose = require('mongoose');
 
 // Import your user model
