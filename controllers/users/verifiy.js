@@ -6,13 +6,11 @@ module.exports = async (req, res, next) => {
 
   const { error } = validate(req.body);
   if(error) {
-    return res.status(400).json({ "error": error.details[0].message} );
+    return res.status(422).json({ "error": error.details[0].message} );
   }
 
   try {
-
     const user = await User.findOne({ _id: req.userId, PIN: req.body.PIN, PINExpiration: { $gt: Date.now() } }).select('-password');
-    
     if (!user) {
       const error = new Error("Not Authorized");
       error.statusCode = 401;
@@ -26,8 +24,9 @@ module.exports = async (req, res, next) => {
     await user.save();
   
     return res.status(200).json({ 
-      "message" : "Account is activated", 
-      "accountIsActive": user.userIsVerified 
+      message : "Account is activated", 
+      accountIsActive: user.userIsVerified,
+
     });
   } catch (err) {
     if (!err.statusCode) {

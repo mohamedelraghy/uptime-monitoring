@@ -43,10 +43,13 @@ module.exports = async (req, res, next) => {
 
     await user.save();  
     
-    res.status(200).json({ 
+    res.status(201).json({ 
       message: "User Created",
+      PIN: code,
       user: {
-        id: user._id
+        id: user._id,
+        name: user.name,
+        email: user.email
       }
     });
 

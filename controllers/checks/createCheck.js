@@ -26,9 +26,9 @@ module.exports = async (req, res, next) => {
     check.createdBy = req.userId;
 
     await check.save();
-    res.status(200).json({
+    res.status(201).json({
       message: "Check Created",
-      id: check._id
+      check: check
     });
 
   } catch (err) {

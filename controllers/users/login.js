@@ -23,7 +23,7 @@ module.exports = async(req, res, next) => {
   
     const isEqual = await bcrypt.compare(password, user.password);
     if (!isEqual) {
-      const error = new Error('Wrong Password');
+      const error = new Error('Invalid email or password');
       error.statusCode = 401;
       throw error;
     }

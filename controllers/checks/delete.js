@@ -19,7 +19,7 @@ module.exports = async (req, res, next) => {
       throw error;
     }
 
-    res.status(201).json({
+    res.status(204).json({
       message: "check Deleted",
       check: deletedCheck
     })
