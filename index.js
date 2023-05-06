@@ -2,7 +2,9 @@ const express = require('express');
 const app = express();
 
 require('./startup/middleware')(app);   //* calling some Middleware
-require('./startup/db')();              //* connection to DB 
+if (process.env.ENV !== 'test'){
+  require('./startup/db')();              //* connection to DB 
+}
 require('./startup/routes')(app);       //* API routes
 require('./startup/errorHandler')(app); //* Error handler
 
