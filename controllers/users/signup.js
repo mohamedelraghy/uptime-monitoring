@@ -2,7 +2,7 @@ const _ = require('lodash');
 const bcrypt = require('bcrypt');
 
 const { User, validate } = require('../../models/user');
-const transporter = require('../../services/sendGrid')
+const transporter = require('../../services/sendGrid');
 
 module.exports = async (req, res, next) => {
   const { error } = validate(req.body);
