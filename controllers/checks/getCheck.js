@@ -6,7 +6,7 @@ module.exports = async (req, res, next) => {
   if (!checkId) {
     const error = new Error('Not valid ID');
     error.statusCode = 400;
-    return next(err);
+    return next(error);
   }
 
   try {
