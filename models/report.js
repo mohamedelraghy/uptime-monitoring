@@ -11,7 +11,7 @@ const reportSchema = new mongoose.Schema({
   uptime: { type: Number, required: true },
   aveResponseTime: { type: Number, required: true },
   history: { type: [], required: true },
-  timestamp: { type: Number, required: true },
+  timestamp: { type: Date, required: true },
   forCheck: { type: mongoose.Types.ObjectId, ref: 'Check' },
 });
 
@@ -30,6 +30,7 @@ const validateReport = report => {
     uptime: Joi.number().number().positive().required(),
     aveResponseTime: Joi.number().number().positive().required(),
     history: Joi.array().required(),
+    timestamp: Joi.date().required(),
   });
   return schema.validate(report);
 }
