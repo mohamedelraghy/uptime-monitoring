@@ -1,11 +1,18 @@
 const axios = require('axios');
 
+const { User } = require('../models/user');
 const ReportServices = require('../controllers/report/reportServices');
 const { sendPingStatus } = require('../services/sendGrid');
 
-module.exports =  function createUptimeMonitor(check) {
+module.exports =  async function createUptimeMonitor(check) {
   const { name, url, protocol, path = '/', port = '', timeout, interval, threshold, authentication, httpHeaders, assert, ignoreSSL = false } = check;
   
+  const user = await User.findById(check.createdBy);
+  if (!user) {
+    //* Impossible to happen
+    throw new Error('No User for that check');
+  }
+
   const reportData = {
     status: 'unknown',
     availability: 0,
@@ -18,7 +25,7 @@ module.exports =  function createUptimeMonitor(check) {
   }
 
   const checkData = {
-    userEmail: req.userEmail,
+    userEmail: user.email,
     name: name,
     protocol: protocol,
     url: url,
@@ -68,7 +75,8 @@ module.exports =  function createUptimeMonitor(check) {
       reportData.uptime = reportData.uptime + (Date.now() - startTime);
       reportData.status = 'up';
       reportData.history.push({ timestamp: new Date().toISOString(), status: reportData.status });
-      sendPingStatus(checkData); //sending E-mail when check is up
+      // sendPingStatus(checkData); //sending E-mail when check is up
+      
     }
   };
 
@@ -78,10 +86,12 @@ module.exports =  function createUptimeMonitor(check) {
       reportData.status = 'down';
       reportData.outages++;
       reportData.history.push({ timestamp: new Date().toISOString(), status: reportData.status });
-      sendPingStatus(checkData); //sending E-mail when check is down
+      // sendPingStatus(checkData); //sending E-mail when check is down
+
     }
     if (reportData.outages >= threshold) {
-      sendPingStatus(checkData); //sending E-mail when check is down
+      // sendPingStatus(checkData); //sending E-mail when check is down
+      // send a webhook notification
     }
   };
 
