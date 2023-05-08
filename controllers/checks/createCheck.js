@@ -9,7 +9,7 @@ module.exports = async (req, res, next) => {
   }
 
   try {
-    const isCheckExists = await Check.exists({ url: req.body.url, createdBy: req.userId });
+    const isCheckExists = await Check.exists({ url: req.body.url, createdBy: req.userId, path: req.body.path });
     if(isCheckExists) {
       const error = new Error('check Already Exists');
       error.statusCode = 400;
@@ -28,7 +28,7 @@ module.exports = async (req, res, next) => {
 
     await check.save();
 
-    const ping = monitor(check);
+    const ping = await monitor(check);
     ping.start();
 
     res.status(201).json({
