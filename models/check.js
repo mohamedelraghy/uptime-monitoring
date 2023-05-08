@@ -49,7 +49,7 @@ const validateCheck = check => {
     assert: Joi.object({
       statusCode: Joi.number().positive().required()
     }).optional(),
-    tags: Joi.array().items(Joi.string()),
+    tags: Joi.array().items(Joi.string()).default([""]),
     ignoreSSL: Joi.boolean()
   });
 
