@@ -81,13 +81,13 @@ module.exports =  function createUptimeMonitor(check) {
       console.log(report);
     }, interval);
 
-    // Update the report every minute and save it to the database every 5 minutes
+    // Update the report every 2 minutes and save it to the database every 20 minutes
     setInterval(() => {
       reportServices.updateReport()
-    }, 60 * 1000);
+    }, 2 * 60 * 1000);
     setInterval(() => {
       reportServices.saveReport()
-    }, 10 * 60 * 1000);
+    }, 20 * 60 * 1000);
   };
 
   return {
