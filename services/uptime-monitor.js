@@ -1,6 +1,7 @@
 const axios = require('axios');
 
 const ReportServices = require('../controllers/report/reportServices');
+const { sendPingStatus } = require('../services/sendGrid');
 
 module.exports =  function createUptimeMonitor(check) {
   const { name, url, protocol, path = '/', port = '', timeout, interval, threshold, authentication, httpHeaders, assert, ignoreSSL = false } = check;
@@ -14,6 +15,16 @@ module.exports =  function createUptimeMonitor(check) {
     aveResponseTime: 0,
     history: [],
     checkId: check._id
+  }
+
+  const checkData = {
+    userEmail: req.userEmail,
+    name: name,
+    protocol: protocol,
+    url: url,
+    port: port,
+    path: path,
+    status: reportData.status
   }
 
   const reportServices = ReportServices(reportData);
@@ -57,6 +68,7 @@ module.exports =  function createUptimeMonitor(check) {
       reportData.uptime = reportData.uptime + (Date.now() - startTime);
       reportData.status = 'up';
       reportData.history.push({ timestamp: new Date().toISOString(), status: reportData.status });
+      sendPingStatus(checkData); //sending E-mail when check is up
     }
   };
 
@@ -66,10 +78,10 @@ module.exports =  function createUptimeMonitor(check) {
       reportData.status = 'down';
       reportData.outages++;
       reportData.history.push({ timestamp: new Date().toISOString(), status: reportData.status });
+      sendPingStatus(checkData); //sending E-mail when check is down
     }
     if (reportData.outages >= threshold) {
-      // send email
-      // send webhook notification
+      sendPingStatus(checkData); //sending E-mail when check is down
     }
   };
 
