@@ -3,6 +3,7 @@ const Report = require('../../models/report');
 
 module.exports = async(req, res, next) => {
   
+  //* return Error if Not valid ID 
   const checkId = req.params.checkId;
   if (!checkId) {
     const error = new Error('Not valid ID');
@@ -11,7 +12,7 @@ module.exports = async(req, res, next) => {
   }
 
   try {
-    // check if there is check with that ID;
+    //* check if there is check with that ID;
     const check = await Check.findOne({_id: checkId, createdBy: req.userId});
     console.log(check);
     if (!check) {
@@ -24,6 +25,7 @@ module.exports = async(req, res, next) => {
       forCheck: checkId
     });
 
+    //* return Error if Not Report found
     if (reports.length === 0) {
       const error = new Error('Report NOT FOUND');
       error.statusCode = 404;
