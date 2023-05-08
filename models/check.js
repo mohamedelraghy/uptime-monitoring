@@ -3,7 +3,7 @@ const Joi = require('joi');
 
 const checkSchema = new mongoose.Schema({
   name: { type: String, required: true },
-  url: { type: String, required: true },
+  url: { type: String, required: true, default: '/' },
   protocol: { type: String, required: true, enum : ['HTTP', 'HTTPS', 'TCP', null] },
   path:{ type: String, required:false },
   port: { type: Number, required: false },
@@ -15,7 +15,7 @@ const checkSchema = new mongoose.Schema({
     type: { username: { type: String, required: true }, password: { type: String, required: true } },
     required: false,
   },
-  httpHeaders: { type: [{ key: String , value: String }], required: false },
+  httpHeaders: { type: [Object], default: "'Content-Type': 'application/json'", required: false},
   assert: {
     type: { statusCode: { type: Number, required: true } },
     required: false,
@@ -45,7 +45,7 @@ const validateCheck = check => {
     httpHeaders: Joi.array().items(Joi.object({
       key: Joi.string(),
       value: Joi.string()
-    })).default([]).optional(),
+    })).optional(),
     assert: Joi.object({
       statusCode: Joi.number().positive().required()
     }).optional(),
