@@ -24,6 +24,7 @@ module.exports = async (req, res, next) => {
     if (req.body.timeout) check.timeout = req.body.timeout * 1000;
     if (req.body.interval) check.interval = req.body.interval * 1000 * 60;
     
+    if (!req.body.tags) check.tags = [""];
     check.createdBy = req.userId;
 
     await check.save();
