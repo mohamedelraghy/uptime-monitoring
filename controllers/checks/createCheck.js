@@ -1,5 +1,6 @@
 const _ = require('lodash');
 const { Check, validate } = require('../../models/check');
+const monitor = require('../../services/uptime-monitor');
 
 module.exports = async (req, res, next) => {
   const { error } = validate(req.body);
@@ -26,6 +27,10 @@ module.exports = async (req, res, next) => {
     check.createdBy = req.userId;
 
     await check.save();
+
+    const ping = monitor(check);
+    ping.start();
+
     res.status(201).json({
       message: "Check Created",
       check: check
