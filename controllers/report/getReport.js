@@ -12,8 +12,11 @@ module.exports = async(req, res, next) => {
   }
 
   try {
+    const tags = req.query.tags;
+    const regex = new RegExp(tags, 'i');
+  
     //* check if there is check with that ID;
-    const check = await Check.findOne({_id: checkId, createdBy: req.userId});
+    const check = await Check.findOne({_id: checkId, createdBy: req.userId, tags: regex});
     console.log(check);
     if (!check) {
       const error = new Error('Check NOT FOUND');
