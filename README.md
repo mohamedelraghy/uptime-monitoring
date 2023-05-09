@@ -22,6 +22,17 @@ This is a Uptime Monitoring API that allows authenticated users to monitor URLs,
 
 ## Running the API
 
+setup your environment variables
+
+```
+  touch .env
+  echo 'export NODE_MAILER_KEY=YOUR_NODE_MAILER_KEY' >> .env
+  echo 'export JWT_KEY=YOU_JWT_KEY' >> .env
+  echo 'export ENV=test' >> .env
+
+  source .env
+````
+
 To start the API, run the following command:
 
       npm start
