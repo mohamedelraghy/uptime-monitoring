@@ -49,7 +49,7 @@ This will run the tests using Jest and generate a coverage report.
 
   you could use docker just run this command
   
-        docker-compose up
+      docker-compose up
 
   and it will do the magic for you
 
