@@ -13,10 +13,11 @@ This is a Uptime Monitoring API that allows authenticated users to monitor URLs,
   `https://github.com/mohamedelraghy/uptime-monitoring.git`
 
 2. Install the dependencies:
-    ```bash
-      cd uptime-monitoring
-      npm install
-    ```
+    
+  ```bash
+    cd uptime-monitoring
+    npm install
+  ```
   
 
 ## Running the API
