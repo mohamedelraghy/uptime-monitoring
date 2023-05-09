@@ -26,7 +26,6 @@ module.exports = async (req, res, next) => {
     return res.status(200).json({ 
       message : "Account is activated", 
       accountIsActive: user.userIsVerified,
-
     });
   } catch (err) {
     if (!err.statusCode) {
