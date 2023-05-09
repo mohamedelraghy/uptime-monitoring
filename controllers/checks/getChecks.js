@@ -5,7 +5,6 @@ module.exports = async (req, res, next) => {
   try {
     const tags = req.query.tags;
     const regex = new RegExp(tags, 'i');
-    console.log(regex);
     const checks = await Check.find({ $and: [{ createdBy: req.userId}, { tags: regex }] });
     
     if (!checks) {
