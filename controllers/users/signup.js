@@ -28,7 +28,7 @@ module.exports = async (req, res, next) => {
     
     //* send 5 digits PIN to user when registering 
     const code = generateCode(5);
-    // sendVerifyCode(user.email, code);
+    sendVerifyCode(user.email, code);
     
     user.PIN = code;
     user.PINExpiration = Date.now() + 3600000;
