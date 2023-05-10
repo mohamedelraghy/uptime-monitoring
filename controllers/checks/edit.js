@@ -13,17 +13,16 @@ module.exports = async (req, res, next) => {
     return next(err);
   }
 
-
-
   try {
     //* check if there is any checks having same url
-    let check = await Check.exists({ url: req.body.url });
+    let check = await Check.exists({ url: req.body.url, path: req.body.path });
     if (check) {
-      const error = new Error('Check Already Exists');
-      error.statusCode = 400;
+      const error = new Error('Check not found');
+      error.statusCode = 404;
       throw error;
     }
 
+    console.log(checkId, req.userId);
     //* find & update
     check = await Check.findOne({_id: checkId, createdBy: req.userId });
 
