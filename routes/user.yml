@@ -87,7 +87,7 @@ paths:
           description: Validation Error
         '404':
           description: A user with this email could not be found.
-        '400':
+        '401':
           description: Invalid email or password
         
   /api/users/verifiy:

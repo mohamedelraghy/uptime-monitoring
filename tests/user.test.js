@@ -4,6 +4,7 @@ const mongoose = require('mongoose');
 
 // Import your user model
 const { User } = require('../models/user');
+const { Check } = require('../models/check');
 const API_BASE_URL = 'http://localhost:3000/api/users';
  
 
@@ -25,12 +26,32 @@ beforeEach(async () => {
 
 describe('User Signup', () => {
   it('should create a new user with valid credentials', async () => {
+    beforeEach(async () => {
+      const user = new User({
+        name: "MOhamed",
+        email: "test@test.com",
+        password: "password",
+        confirm_password: "password"
+      });
+      await user.save();
+      const check = new check({
+        name: google,
+        url: "Localhost",
+        protocol: "https",
+        path:"/api",
+        createdBy: user._id
+      });
+      check.save();
+    });
+    
     const res = await axios.post(`${API_BASE_URL}/signup`, {
       name: 'John Doe',
       email: 'johndoe@example.com',
       password: 'password',
       confirm_password: "password"
     });
+    
+  
 
     expect(res.status).toEqual(201);
     expect(res.data).toHaveProperty('user');

@@ -86,11 +86,11 @@ module.exports =  async function createUptimeMonitor(check) {
       reportData.status = 'down';
       reportData.outages++;
       reportData.history.push({ timestamp: new Date().toISOString(), status: reportData.status });
-      sendPingStatus(checkData); //sending E-mail when check is down
+      // sendPingStatus(checkData); //sending E-mail when check is down
 
     }
     if (reportData.outages >= threshold) {
-      sendPingStatus(checkData); //sending E-mail when check is down
+      // sendPingStatus(checkData); //sending E-mail when check is down
       // send a webhook notification
     }
   };
