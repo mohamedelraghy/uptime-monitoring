@@ -10,8 +10,8 @@ const transport = nodemailer.createTransport(
 );
 
 exports.sendVerifyCode = async (email, code) => {
+  console.log('sending verification mail');
   try {
-
     await transport.sendMail({
       to: email,
       from: "elraghy8+noreplay@gmail.com",
@@ -28,6 +28,7 @@ exports.sendVerifyCode = async (email, code) => {
 }
 
 exports.sendPingStatus = async (checkData) => {
+  console.log("inform you check status in mail please check you inbox...");
   try {
     await transport.sendMail({
       to: checkData.userEmail,
