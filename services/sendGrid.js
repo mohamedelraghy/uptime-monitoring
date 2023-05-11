@@ -15,7 +15,7 @@ exports.sendVerifyCode = async (email, code) => {
     await transport.sendMail({
       to: email,
       from: "elraghy8+noreplay@gmail.com",
-      subject: "Active You Uptime",
+      subject: "Active Your Uptime",
       html: `
       <p>You just register on Uptime Monitoring</p>
       <p>Use this code: ${code} to active your Account</p>       
