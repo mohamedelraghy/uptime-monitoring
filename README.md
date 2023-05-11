@@ -14,17 +14,17 @@ This is a Uptime Monitoring API that allows authenticated users to monitor URLs,
 
 2. Install the dependencies:
     
-  ```bash
-    cd uptime-monitoring
-    npm install
-  ```
+```bash
+  cd uptime-monitoring
+  npm install
+```
   
 
 ## Running the API
 
 setup your environment variables
 
-```
+```bash
   touch .env
   echo 'export NODE_MAILER_KEY=YOUR_NODE_MAILER_KEY' >> .env
   echo 'export JWT_KEY=YOU_JWT_KEY' >> .env
@@ -34,9 +34,9 @@ setup your environment variables
 ````
 
 To start the API, run the following command:
-
-      npm start
-    
+```bash
+  npm start
+```    
 This will start the API server at `http://localhost:3000`.
 
 ## API Documentation
@@ -50,18 +50,18 @@ You can view the API documentation by visiting `http://localhost:3000/api-docs` 
 ## Testing
 
 To run the API tests, use the following command:
-
-      npm test
-
+```bash
+  npm test
+```
 This will run the tests using Jest and generate a coverage report.
 
 
 ## docker 
 
   you could use docker just run this command
-  
-      docker-compose up
-
+```bash
+  docker-compose up
+```
   and it will do the magic for you
 
 ## Contributing
