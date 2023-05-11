@@ -1,5 +1,5 @@
 const axios = require('axios');
-const app = require('../index');
+const server = require('../index');
 const mongoose = require('mongoose');
 
 // Import your user model
@@ -16,6 +16,7 @@ beforeAll(async () => {
 
 // Disconnect from test database
 afterAll(async () => {
+  server.close();
   await mongoose.disconnect();
 });
 
