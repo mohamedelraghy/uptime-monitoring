@@ -8,7 +8,8 @@ require('./startup/errorHandler')(app); //* Error handler
 require('./startup/pingAllChecks')();   //* Start Ping all checks exists in DB;
 
 const port = process.env.PORT || 3000;
-server = app.listen(port, () => {
+
+const server = app.listen(port, () => { 
   console.log(`Listening on port ${port}...`);
 });
 
