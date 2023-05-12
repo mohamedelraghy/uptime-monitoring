@@ -12,8 +12,8 @@ module.exports = async (req, res, next) => {
     //* check if there is any checks having same url
     let check = await Check.exists({ url: req.body.url, path: req.body.path });
     if (check) {
-      const error = new Error('Check not found');
-      error.statusCode = 404;
+      const error = new Error('check Already Exist');
+      error.statusCode = 400;
       throw error;
     }
 

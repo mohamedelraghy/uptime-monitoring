@@ -8,7 +8,7 @@ module.exports = async (req, res, next) => {
     
     if (!check) {
       const error = new Error('No Check found...');
-      error.status = 404;
+      error.statusCode = 404;
       throw error;
     }
 

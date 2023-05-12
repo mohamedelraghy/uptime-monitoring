@@ -2,8 +2,8 @@ const mongoose = require('mongoose');
 const Joi = require('joi');
 
 const checkSchema = new mongoose.Schema({
-  name: { type: String, required: true },
-  url: { type: String, required: true, default: '/' },
+  name: { type: String, minlength: 5, maxlength: 30, required: true },
+  url: { type: String, minlength:1, required: true, default: '/' },
   protocol: { type: String, required: true, enum : ['HTTP', 'HTTPS', 'TCP', null] },
   path:{ type: String, required:false },
   port: { type: Number, required: false },
@@ -22,7 +22,7 @@ const checkSchema = new mongoose.Schema({
   },
   tags: { type: [String], required: false },
   ignoreSSL: { type: Boolean, required: false },
-  createdBy: { type: mongoose.Types.ObjectId, ref: 'User' }
+  createdBy: { type: mongoose.Types.ObjectId, ref: 'User', required: true }
 });
 
 const Check = mongoose.model('Check', checkSchema);

@@ -1,4 +1,3 @@
-const { forEach } = require('lodash');
 const { Check } = require('../models/check');
 
 const monitor = require('../services/uptime-monitor');

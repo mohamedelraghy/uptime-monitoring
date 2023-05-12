@@ -7,9 +7,9 @@ module.exports = async (req, res, next) => {
     const regex = new RegExp(tags, 'i');
     const checks = await Check.find({ $and: [{ createdBy: req.userId}, { tags: regex }] });
     
-    if (!checks) {
+    if (checks.length === 0) {
       const error = new Error('No Checks found...');
-      error.status = 404;
+      error.statusCode = 404;
       throw error;
     }
 
