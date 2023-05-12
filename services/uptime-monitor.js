@@ -75,7 +75,7 @@ module.exports =  async function createUptimeMonitor(check) {
       reportData.uptime = reportData.uptime + (Date.now() - startTime);
       reportData.status = 'up';
       reportData.history.push({ timestamp: new Date().toISOString(), status: reportData.status });
-      sendPingStatus(checkData); //sending E-mail when check is up
+      // sendPingStatus(checkData); //sending E-mail when check is up
       
     }
   };
@@ -86,7 +86,7 @@ module.exports =  async function createUptimeMonitor(check) {
       reportData.status = 'down';
       reportData.outages++;
       reportData.history.push({ timestamp: new Date().toISOString(), status: reportData.status });
-      sendPingStatus(checkData); //sending E-mail when check is down
+      // sendPingStatus(checkData); //sending E-mail when check is down
 
     }
     if (reportData.outages >= threshold) {
