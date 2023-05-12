@@ -17,7 +17,6 @@ module.exports = async (req, res, next) => {
       throw error;
     }
 
-    console.log(checkId, req.userId);
     //* find & update
     check = await Check.findOne({_id: checkId, createdBy: req.userId });
 
