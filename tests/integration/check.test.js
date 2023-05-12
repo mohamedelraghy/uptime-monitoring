@@ -8,46 +8,45 @@ let server;
 const BASE_URL = '/api/checks';
 
 describe('/api/checks', () => {
+  let token;
+  let check;
+  const user = {
+    name: "Mohamed",
+    email: "test@test.com",
+    password: "password",
+    confirm_password: "password"
+  };
 
-  beforeEach(() => { server = require('../../index'); });
-  afterEach(() => { server.close(); });
+  beforeEach(async () => { 
+    server = require('../../index'); 
 
-  describe('POST /', () => {
-    let token;
-    let check;
-    
-    const user = {
-      name: "Mohamed",
-      email: "test@test.com",
-      password: "password",
-      confirm_password: "password"
-    };
-
-    beforeEach(async () => {
-      const res = await request(server)
+    const res = await request(server)
         .post('/api/users/signup')
         .send(user);
 
-      token = jwt.sign({
-        email: user.email,
-        userId: res.body.user.id
-        },
-        process.env.JWT_KEY,
-        { expiresIn: '1h' }
-      );
+    token = jwt.sign({
+      email: user.email,
+      userId: res.body.user.id
+      },
+      process.env.JWT_KEY,
+      { expiresIn: '1h' }
+    );
+    
+    check = {
+      name: "Ping Local",
+      url: "localhost",
+      protocol: "HTTP",
+    }
+  });
 
-      check = {
-        name: "Ping Local",
-        url: "localhost",
-        protocol: "HTTP",
-      }
-    });
+  afterEach(async () => { 
+    await User.deleteMany();
+    await Check.deleteMany();
+    server.close(); 
+  });
 
-    afterEach(async () => {
-      await User.deleteMany();
-      await Check.deleteMany();
-    });
-
+  describe('POST /', () => {
+    
     const exec = async () => {
       return await request(server)
         .post(BASE_URL)
@@ -112,44 +111,12 @@ describe('/api/checks', () => {
   });
 
   describe('GET /', () => {
-    let token;
-    let check;
-    
-    const user = {
-      name: "Mohamed",
-      email: "test@test.com",
-      password: "password",
-      confirm_password: "password"
-    };
 
     beforeEach(async () => {
-      const res = await request(server)
-        .post('/api/users/signup')
-        .send(user);
-
-      token = jwt.sign({
-        email: user.email,
-        userId: res.body.user.id
-        },
-        process.env.JWT_KEY,
-        { expiresIn: '1h' }
-      );
-
-      check = {
-        name: "Ping Local",
-        url: "localhost",
-        protocol: "HTTP",
-      }
-
       await request(server)
         .post(BASE_URL)
         .set('Authorization', 'Bearer ' + token)
         .send(check)
-    });
-
-    afterEach(async () => {
-      await User.deleteMany();
-      await Check.deleteMany();
     });
 
     const exec = async () => {
@@ -176,47 +143,15 @@ describe('/api/checks', () => {
   });
 
   describe('GET /:id', () => {
-    let token;
-    let check;
     let id;
 
-    const user = {
-      name: "Mohamed",
-      email: "test@test.com",
-      password: "password",
-      confirm_password: "password"
-    };
-
     beforeEach(async () => {
-      const res = await request(server)
-        .post('/api/users/signup')
-        .send(user);
-
-      token = jwt.sign({
-        email: user.email,
-        userId: res.body.user.id
-        },
-        process.env.JWT_KEY,
-        { expiresIn: '1h' }
-      );
-      
-      check = {
-        name: "Ping Local",
-        url: "localhost",
-        protocol: "HTTP",
-      }
-
       const checkID = await request(server)
         .post(BASE_URL)
         .set('Authorization', 'Bearer ' + token)
         .send(check)
 
       id = checkID.body.check._id
-    });
-
-    afterEach(async () => {
-      await User.deleteMany();
-      await Check.deleteMany();
     });
 
     const exec = async () => {
@@ -251,36 +186,10 @@ describe('/api/checks', () => {
   });
 
   describe('PUT /:id', () => {
-    let token;
     let updatedCheck;
     let id;
 
-    const user = {
-      name: "Mohamed",
-      email: "test@test.com",
-      password: "password",
-      confirm_password: "password"
-    };
-
-    const check = {
-      name: "Ping Local",
-      url: "localhost",
-      protocol: "HTTP",
-    }
-
-    beforeEach(async () => {
-      const res = await request(server)
-        .post('/api/users/signup')
-        .send(user);
-
-      token = jwt.sign({
-        email: user.email,
-        userId: res.body.user.id
-        },
-        process.env.JWT_KEY,
-        { expiresIn: '1h' }
-      );
-      
+    beforeEach(async () => {      
       updatedCheck = {
         name: "updated Ping Local",
         url: "localhost",
@@ -294,11 +203,6 @@ describe('/api/checks', () => {
         .send(check)
 
       id = checkID.body.check._id
-    });
-
-    afterEach(async () => {
-      await User.deleteMany();
-      await Check.deleteMany();
     });
 
     const exec = async () => {
@@ -366,47 +270,15 @@ describe('/api/checks', () => {
   });
   
   describe('DELETE /:id', () => {
-    let token;
-    let check;
     let id;
 
-    const user = {
-      name: "Mohamed",
-      email: "test@test.com",
-      password: "password",
-      confirm_password: "password"
-    };
-
     beforeEach(async () => {
-      const res = await request(server)
-        .post('/api/users/signup')
-        .send(user);
-
-      token = jwt.sign({
-        email: user.email,
-        userId: res.body.user.id
-        },
-        process.env.JWT_KEY,
-        { expiresIn: '1h' }
-      );
-      
-      check = {
-        name: "Ping Local",
-        url: "localhost",
-        protocol: "HTTP",
-      }
-
       const checkID = await request(server)
         .post(BASE_URL)
         .set('Authorization', 'Bearer ' + token)
         .send(check)
 
       id = checkID.body.check._id
-    });
-
-    afterEach(async () => {
-      await User.deleteMany();
-      await Check.deleteMany();
     });
 
     const exec = async () => {
