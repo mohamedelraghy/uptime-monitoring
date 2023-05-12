@@ -1,16 +1,9 @@
 const { Check } = require('../../models/check');
 
 module.exports = async (req, res, next) => {
-  const checkId = req.params.id;
   
-  if (!checkId) {
-    const error = new Error('Not valid ID');
-    error.statusCode = 400;
-    return next(err);
-  }
-
-  try {
-    
+  try {    
+    const checkId = req.params.id;
     const deletedCheck = await Check.findOneAndRemove({ _id: checkId, createdBy: req.userId });
 
     if (!deletedCheck) {

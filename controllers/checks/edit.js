@@ -7,11 +7,6 @@ module.exports = async (req, res, next) => {
   }
   
   const checkId = req.params.id;
-  if (!checkId) {
-    const error = new Error('Not valid ID');
-    error.statusCode = 400;
-    return next(err);
-  }
 
   try {
     //* check if there is any checks having same url

@@ -2,12 +2,6 @@ const { Check } = require('../../models/check');
 
 module.exports = async (req, res, next) => {
   const checkId = req.params.id;
-  
-  if (!checkId) {
-    const error = new Error('Not valid ID');
-    error.statusCode = 400;
-    return next(error);
-  }
 
   try {
     const check = await Check.findOne({_id: checkId, createdBy: req.userId});
