@@ -20,7 +20,7 @@ const userSchema = new mongoose.Schema({
     type : String,
     required : true,
     minlength : 8,
-    maxlength : 1024
+    maxlength : 255 
   },
   userIsVerified : {
     type : Boolean,
