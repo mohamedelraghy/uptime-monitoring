@@ -37,8 +37,8 @@ module.exports =  async function createUptimeMonitor(check) {
   const reportServices = ReportServices(reportData);
 
   const pingUrl = async () => {
-  const startTime = Date.now();
 
+    const startTime = Date.now();
     try {
       const config = {
         method: 'get',
@@ -96,8 +96,8 @@ module.exports =  async function createUptimeMonitor(check) {
   };
 
   const start = () => {
-    setInterval(() => {
-      pingUrl();
+    setInterval(async () => {
+      await pingUrl();
       reportData.availability = (((reportData.uptime / (reportData.uptime + reportData.downtime)) * 100).toFixed(2) || 0);
       const report = { status: reportData.status,  availability: reportData.availability, outages: reportData.outages, downtime: reportData.downtime, uptime: reportData.uptime, aveResponseTime: reportData.aveResponseTime, history: reportData.history };
       console.log(report);
