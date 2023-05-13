@@ -102,7 +102,7 @@ describe('/api/checks', () => {
   
     it('should return the report', async ()=> {      
       const res = await exec();
-      console.log("reeees", res);
+
       expect(res.status).toBe(200);
       expect(res.body).toHaveProperty('message', 'Report Retrieved');
       expect(res.body).toHaveProperty('reports');
