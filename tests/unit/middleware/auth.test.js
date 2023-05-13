@@ -2,12 +2,11 @@ const jwt = require('jsonwebtoken');
 const mongoose = require('mongoose');
 
 const auth = require('../../../middleware/is-Auth');
-const { before } = require('lodash');
-
 
 describe('auth middleware', () => {
   let token;
   let req;
+  
   const next = jest.fn();
   const res = {};
   const user = { 
@@ -56,7 +55,7 @@ describe('auth middleware', () => {
     };
 
     exec();
-    
+
     expect(req.userId).toBe(user._id);
     expect(req.userEmail).toBe(user.email);
     expect(req.isAuth).toBe(true);
