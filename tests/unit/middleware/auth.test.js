@@ -2,32 +2,61 @@ const jwt = require('jsonwebtoken');
 const mongoose = require('mongoose');
 
 const auth = require('../../../middleware/is-Auth');
+const { before } = require('lodash');
 
 
 describe('auth middleware', () => {
-  it('should populate req with the payload of a valid JWT', () => {
-    const user = { 
-      _id: new mongoose.Types.ObjectId().toHexString(), 
-      email: 'test@test.com' 
-    };
+  let token;
+  let req;
+  const next = jest.fn();
+  const res = {};
+  const user = { 
+    _id: new mongoose.Types.ObjectId().toHexString(), 
+    email: 'test@test.com' 
+  };
 
-    const token = jwt.sign({
+  beforeEach(() => { 
+    token = jwt.sign({
       email: user.email,
       userId: user._id.toString()
     },
       process.env.JWT_KEY,
     { expiresIn: '1h' }
     );
+  });
 
-    const req = {
+  const exec = () => {
+    auth(req, res, next);
+  };
+
+  it('should populate req.isAuth with false if no header provided', () => {
+
+    req = {
+      get: jest.fn().mockReturnValue(undefined)
+    };
+    
+    exec();
+
+    expect(req.isAuth).toBe(false);
+  });
+
+  it('should populate req.isAut with false if token is not valid', () => {
+    req = {
+      get: jest.fn().mockReturnValue('Bearer ' + 'token')
+    };
+
+    exec();
+
+    expect(req.isAuth).toBe(false);
+  });
+
+  it('should populate req with the payload of a valid JWT', () => {
+    req = {
       get: jest.fn().mockReturnValue('Bearer ' + token)
     };
 
-    const res = {};
-    const next = jest.fn();
-
-    auth(req, res, next);
-
+    exec();
+    
     expect(req.userId).toBe(user._id);
     expect(req.userEmail).toBe(user.email);
     expect(req.isAuth).toBe(true);
