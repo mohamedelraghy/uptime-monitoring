@@ -72,7 +72,7 @@ module.exports =  async function createUptimeMonitor(check) {
 
   const handleSuccess = async (startTime) => {
     if (reportData.status !== 'up') {
-      reportData.uptime = reportData.uptime + (Date.now() - startTime);
+      reportData.uptime = (reportData.uptime + (Date.now() - startTime)) / 1000;
       reportData.status = 'up';
       checkData.status = 'up';
       reportData.history.push({ timestamp: new Date().toISOString(), status: reportData.status });
@@ -83,7 +83,7 @@ module.exports =  async function createUptimeMonitor(check) {
 
   const handleFailure = async (error, startTime) => {
     if (reportData.status !== 'down') {
-      reportData.downtime = reportData.downtime + (Date.now() - startTime);
+      reportData.downtime = (reportData.downtime + (Date.now() - startTime)) / 1000;
       reportData.status = 'down';
       checkData.status = 'down';
       reportData.outages++;
