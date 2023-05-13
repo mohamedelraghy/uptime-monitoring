@@ -252,6 +252,14 @@ describe('/api/checks', () => {
       expect(res.status).toBe(404);
     });
 
+    it('should return 404 if no check to updated', async () => {
+      await Check.deleteMany();
+      
+      const res = await exec();
+
+      expect(res.status).toBe(404);
+    });
+
     it('should return 400 if updated check Already Exist', async () => {
       updatedCheck = check;
 
