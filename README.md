@@ -49,6 +49,17 @@ You can view the API documentation by visiting `http://localhost:3000/api-docs` 
 
 ## Testing
 
+before Testing, setup test Environment variables:
+
+```bash
+touch .env.test
+echo 'export NODE_MAILER_KEY=YOUR_NODE_MAILER_KEY' >> .env.test
+echo 'export JWT_KEY=YOUR_JWT_KEY' >> .env.test
+echo 'export MONGODB_URI=YOU_TEST_MONGODB_URL' >> .env.test
+
+source .env.test
+```
+
 To run the API tests, use the following command:
 ```bash
   npm test
