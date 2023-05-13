@@ -61,32 +61,34 @@ module.exports =  async function createUptimeMonitor(check) {
       const duration = endTime - startTime;
       reportData.aveResponseTime = (reportData.aveResponseTime + duration) / 2;
       if (assert && assert.statusCode && response.status !== assert.statusCode) {
-        handleFailure('status code does not match', startTime);
+        await handleFailure('status code does not match', startTime);
       } else {
-        handleSuccess(startTime);
+        await handleSuccess(startTime);
       }
     } catch (error) {
-      handleFailure(error, startTime);
+      await handleFailure(error, startTime);
     }
   };
 
-  const handleSuccess = (startTime) => {
+  const handleSuccess = async (startTime) => {
     if (reportData.status !== 'up') {
       reportData.uptime = reportData.uptime + (Date.now() - startTime);
       reportData.status = 'up';
+      checkData.status = 'up';
       reportData.history.push({ timestamp: new Date().toISOString(), status: reportData.status });
-      // sendPingStatus(checkData); //sending E-mail when check is up
+      // await sendPingStatus(checkData); //sending E-mail when check is up
       
     }
   };
 
-  const handleFailure = (error, startTime) => {
+  const handleFailure = async (error, startTime) => {
     if (reportData.status !== 'down') {
       reportData.downtime = reportData.downtime + (Date.now() - startTime);
       reportData.status = 'down';
+      checkData.status = 'down';
       reportData.outages++;
       reportData.history.push({ timestamp: new Date().toISOString(), status: reportData.status });
-      // sendPingStatus(checkData); //sending E-mail when check is down
+      // await sendPingStatus(checkData); //sending E-mail when check is down
 
     }
     if (reportData.outages >= threshold) {
