@@ -76,7 +76,7 @@ module.exports =  async function createUptimeMonitor(check) {
       reportData.status = 'up';
       checkData.status = 'up';
       reportData.history.push({ timestamp: new Date().toISOString(), status: reportData.status });
-      await sendPingStatus(checkData); //sending E-mail when check is up
+      if(process.env.ENV !== 'test') await sendPingStatus(checkData); //sending E-mail when check is up
       
     }
   };
@@ -88,7 +88,7 @@ module.exports =  async function createUptimeMonitor(check) {
       checkData.status = 'down';
       reportData.outages++;
       reportData.history.push({ timestamp: new Date().toISOString(), status: reportData.status });
-      await sendPingStatus(checkData); //sending E-mail when check is down
+      if(process.env.ENV !== 'test') await sendPingStatus(checkData); //sending E-mail when check is down
 
     }
     if (reportData.outages >= threshold) {
